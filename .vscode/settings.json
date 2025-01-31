@@ -1,0 +1,15 @@
+{
+    "//": "Enable format on save to automatically format files using the default formatter",
+    "editor.formatOnSave": true,
+    "//": "Set Prettier as the default formatter for all file types it supports",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "//": "Enable ESLint integration",
+    "eslint.enable": true,
+    "//": "Run ESLint on save",
+    "eslint.run": "onSave",
+    "//": "Always show the status of ESLint in the bottom bar",
+    "eslint.alwaysShowStatus": true,
+    "//": "Use LF (Line Feed) as the end of line character",
+    "files.eol": "\n"
+  }
+  

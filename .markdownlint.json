@@ -1,0 +1,8 @@
+{
+  "//": "Enable all rules by default",
+  "default": true,
+  "//": "Disable the rule that enforces line length",
+  "MD013": false,
+  "//": "Enable the rule that disallows inline HTML",
+  "MD033": true
+}

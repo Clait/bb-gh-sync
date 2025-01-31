@@ -1,0 +1,31 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "rules": {
+      "//": "Display Prettier errors as ESLint errors",
+      "prettier/prettier": "error",
+      "//": "Warn about unused variables",
+      "no-unused-vars": "warn",
+      "//": "Allow the use of console for debugging",
+      "no-console": "off",
+      "//": "Warn about the use of debugger statements",
+      "no-debugger": "warn",
+      "//": "Enforce the use of semicolons",
+      "semi": ["error", "always"],
+      "//": "Enforce the use of single quotes",
+      "quotes": ["error", "single"]
+    }
+  }
+  

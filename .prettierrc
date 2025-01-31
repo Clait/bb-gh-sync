@@ -1,0 +1,19 @@
+{
+    "//": "Set the maximum line length",
+    "printWidth": 80,
+    "//": "Set the number of spaces per tab",
+    "tabWidth": 2,
+    "//": "Use spaces instead of tabs",
+    "useTabs": false,
+    "//": "Add a semicolon at the end of every statement",
+    "semi": true,
+    "//": "Use single quotes instead of double quotes",
+    "singleQuote": true,
+    "//": "Add trailing commas where valid in ES5 (objects, arrays, etc.)",
+    "trailingComma": "es5",
+    "//": "Print spaces between brackets in object literals",
+    "bracketSpacing": true,
+    "//": "Always include parentheses around arrow function parameters",
+    "arrowParens": "always"
+  }
+  
