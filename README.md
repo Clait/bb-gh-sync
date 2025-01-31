@@ -79,7 +79,7 @@ Contributions are welcome! Please open an issue or submit a pull request with yo
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v2.0. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
 
