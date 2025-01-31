@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: portus.co.ihc.com/devops/bb-gh-sync:latest # Replace with your image name and tag
+    image: portus-repo.co.ihc.com/devops/bb-gh-sync:latest # Replace with your image name and tag
     ports:
       - "3000:3000" # Map the container's port 3000 to your VM's port 3000
     environment:
@@ -11,8 +11,6 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - BITBUCKET_REPO_URL=${BITBUCKET_REPO_URL}
       - GITHUB_REPO_URL=${GITHUB_REPO_URL}
-    volumes:
-      - .:/app # Mount the current directory to /app in the container
     depends_on:
       - redis
 
@@ -20,6 +18,3 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
-
-volumes:
-  data:
