@@ -1,18 +1,14 @@
-// Load the required modules
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const simpleGit = require('simple-git');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 
-// Initialize the app
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to parse JSON
 app.use(bodyParser.json());
 
-// Webhook endpoint to handle Bitbucket webhooks
 app.post('/webhook', async (req, res) => {
   const { repository } = req.body;
 
@@ -41,7 +37,6 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-// Function to check if a GitHub repo exists
 async function checkGitHubRepoExists(repoName) {
   const ghUser = process.env.GITHUB_USER;
   const ghToken = process.env.GITHUB_TOKEN;
@@ -63,7 +58,6 @@ async function checkGitHubRepoExists(repoName) {
   }
 }
 
-// Function to sync Bitbucket and GitHub repos
 async function syncRepos(repoName) {
   const bbUrl = process.env.BITBUCKET_REPO_URL;
   const ghUrl = process.env.GITHUB_REPO_URL;
@@ -74,11 +68,25 @@ async function syncRepos(repoName) {
   await git.push('github', 'master');
 }
 
+let shuttingDown = false;
+
+const shutdown = async () => {
+  if (!shuttingDown) {
+    shuttingDown = true;
+    console.log('Shutting down server...');
+    await new Promise((resolve) => server.close(resolve));
+    console.log('Server shut down');
+    process.exit(0);
+  }
+};
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
 module.exports = { app, checkGitHubRepoExists, syncRepos };
 
-// Start the server if this file is run directly
 if (require.main === module) {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
   });
 }

@@ -64,13 +64,13 @@ To build and run the application inside a Docker container:
 1. Build the Docker image:
 
     ```sh
-    docker build -t bb-gh-sync .
+    docker build -t portus.co.ihc.com/devops/bb-gh-sync .
     ```
 
 2. Run the Docker container:
 
     ```sh
-    docker run -p 3000:3000 bb-gh-sync
+    docker run -p 3000:3000 portus.co.ihc.com/devops/bb-gh-sync
     ```
 
 ## Contributing

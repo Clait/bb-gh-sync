@@ -8,7 +8,7 @@
     },
     "scripts": {
         "start": "node index.js",
-        "test": "jest",
+        "test": "jest --detectOpenHandles",
         "lint": "eslint '**/*.js'",
         "format": "prettier --write '**/*.js'"
     },
