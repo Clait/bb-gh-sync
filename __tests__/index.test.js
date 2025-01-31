@@ -1,5 +1,4 @@
 const request = require('supertest');
-const { app, checkGitHubRepoExists, syncRepos } = require('../index');
 const axios = require('axios');
 
 jest.mock('axios');
@@ -9,23 +8,15 @@ jest.mock('simple-git', () => () => ({
   push: jest.fn()
 }));
 
-let server;
-
-beforeEach((done) => {
-  server = app.listen(() => {
-    done();
-  });
-});
-
-afterEach((done) => {
-  server.close(done);
+beforeEach(() => {
+  axios.get = jest.fn(); // Ensure axios is mocked before each test
 });
 
 describe('Webhook Endpoint', () => {
   it('should return 200 when repos are synced', async () => {
-    axios.get = jest.fn().mockResolvedValue({ status: 200 }); // Explicitly mock axios.get
+    axios.get.mockResolvedValue({ status: 200 }); // Mock axios.get for success
 
-    const response = await request(server)
+    const response = await request(global.server)
       .post('/webhook')
       .send({ repository: { name: 'test-repo' }, push: {} });
 
@@ -34,9 +25,9 @@ describe('Webhook Endpoint', () => {
   });
 
   it('should return 404 when GitHub repository is not found', async () => {
-    axios.get = jest.fn().mockRejectedValue({ response: { status: 404 } }); // Explicitly mock axios.get
+    axios.get.mockRejectedValue({ response: { status: 404 } }); // Mock axios.get for 404 error
 
-    const response = await request(server)
+    const response = await request(global.server)
       .post('/webhook')
       .send({ repository: { name: 'test-repo' }, push: {} });
 
@@ -45,7 +36,7 @@ describe('Webhook Endpoint', () => {
   });
 
   it('should return 400 for invalid payload', async () => {
-    const response = await request(server)
+    const response = await request(global.server)
       .post('/webhook')
       .send({});
 
@@ -54,11 +45,11 @@ describe('Webhook Endpoint', () => {
   });
 
   it('should return 500 for internal server errors', async () => {
-    axios.get = jest.fn().mockImplementation(() => { // Explicitly mock axios.get
-      throw new Error('Internal error');
+    axios.get.mockImplementation(() => {
+      throw new Error('Internal error'); // Mock axios.get for internal error
     });
 
-    const response = await request(server)
+    const response = await request(global.server)
       .post('/webhook')
       .send({ repository: { name: 'test-repo' }, push: {} });
 

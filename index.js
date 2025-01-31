@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 
 // Webhook endpoint to handle Bitbucket webhooks
 app.post('/webhook', async (req, res) => {
-  // Extract necessary data from the webhook payload
   const { repository } = req.body;
 
   if (!repository) {
@@ -24,19 +23,21 @@ app.post('/webhook', async (req, res) => {
   const repoName = repository.name;
 
   try {
-    // Check if the corresponding repo exists on GitHub
     const ghRepoExists = await checkGitHubRepoExists(repoName);
 
     if (ghRepoExists) {
-      // Sync the GitHub repo with Bitbucket
       await syncRepos(repoName);
       res.status(200).send('Repositories synced');
     } else {
       res.status(404).send('GitHub repository not found');
     }
   } catch (error) {
-    console.error('Error syncing repositories:', error);
-    res.status(500).send('Internal server error');
+    if (error.message === 'GitHub repository not found') {
+      res.status(404).send('GitHub repository not found');
+    } else {
+      console.error('Error syncing repositories:', error);
+      res.status(500).send('Internal server error');
+    }
   }
 });
 
@@ -54,7 +55,11 @@ async function checkGitHubRepoExists(repoName) {
     });
     return response.status === 200;
   } catch (error) {
-    return false;
+    if (error.response && error.response.status === 404) {
+      throw new Error('GitHub repository not found');
+    } else {
+      throw new Error('GitHub repo check failed');
+    }
   }
 }
 
